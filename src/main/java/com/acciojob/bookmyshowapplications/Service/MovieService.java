@@ -2,7 +2,7 @@ package com.acciojob.bookmyshowapplications.Service;
 
 import com.acciojob.bookmyshowapplications.Models.Movie;
 import com.acciojob.bookmyshowapplications.Repository.MovieRepository;
-import com.acciojob.bookmyshowapplications.UpdateMovieRequest;
+import com.acciojob.bookmyshowapplications.Requests.UpdateMovieRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

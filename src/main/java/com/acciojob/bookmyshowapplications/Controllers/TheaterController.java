@@ -28,6 +28,8 @@ public class TheaterController {
     @PostMapping("addTheaterSeats")
     public String addTheaterSeats(@RequestBody AddTheaterSeatsRequest addTheaterSeatsRequest){
 
+        String result = theaterService.addTheaterSeats(addTheaterSeatsRequest);
+        return result;
 
     }
 

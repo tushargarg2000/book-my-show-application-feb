@@ -37,7 +37,8 @@ public class TheaterService {
 
         //Modern way of creating the object is
 
-        Theater theater = Theater.builder().address(addTheaterRequest.getAddress())
+        Theater theater = Theater.builder()
+                .address(addTheaterRequest.getAddress())
                 .noOfScreens(addTheaterRequest.getNoOfScreens())
                 .name(addTheaterRequest.getName())
                 .build();
@@ -57,15 +58,13 @@ public class TheaterService {
         Integer theaterId = addTheaterSeatsRequest.getTheaterId();
         Theater theater = theaterRepository.findById(theaterId).get();
 
-        int classicSeatCounter = 0;
+        int classicSeatCounter = 1;
         char ch='A';
         int rowNo = 1;
-
         List<TheaterSeat> theaterSeatList = new ArrayList<>();
+        while(classicSeatCounter<=noOfClassicSeats) {
 
-        while(classicSeatCounter<noOfClassicSeats){
-
-            String seatNo = rowNo+ch+"";
+            String seatNo = rowNo+""+ch;
             TheaterSeat theaterSeat = TheaterSeat.builder()
                                     .seatNo(seatNo)
                                     .seatType(SeatType.CLASSIC)
@@ -73,44 +72,43 @@ public class TheaterService {
                                     .build();
 
             theaterSeatList.add(theaterSeat);
-
             ch++;
-
             if(classicSeatCounter%5==0) {
                 rowNo = rowNo+1;
                 ch = 'A';
             }
             classicSeatCounter++;
         }
-
-
-        int premiumSeatCounter = 0;
-
+        int premiumSeatCounter = 1;
         ch='A';
-        rowNo = rowNo+1;
+
+        if(classicSeatCounter%5!=1)
+            rowNo = rowNo+1;
 
 
-        while(premiumSeatCounter<noOfPremiumSeats){
+        while(premiumSeatCounter<=noOfPremiumSeats){
 
-            String seatNo = rowNo+ch+"";
+            String seatNo = rowNo+""+ch;
             TheaterSeat theaterSeat = TheaterSeat.builder()
                     .seatNo(seatNo)
-                    .theater(theater)
+                    .theater(theater) //Setting the unidirectional
                     .seatType(SeatType.PREMIUM)
                     .build();
 
             theaterSeatList.add(theaterSeat);
-
             ch++;
-
-            if(premiumSeatCounter%5==0){
+            if(premiumSeatCounter%5==0) {
                 rowNo = rowNo+1;
                 ch = 'A';
             }
-
             premiumSeatCounter++;
         }
-        theaterSeatRepository.saveAll(theaterSeatList);
+
+        theater.setTheaterSeatList(theaterSeatList);
+        theaterRepository.save(theater);
+
+        //Theater seats will get automatically saved
+        //bcz of cascading property written in the parent table
         return "Theater seats have been generated";
     }
 

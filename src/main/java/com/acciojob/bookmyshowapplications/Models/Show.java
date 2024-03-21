@@ -1,39 +1,45 @@
 package com.acciojob.bookmyshowapplications.Models;
-import jakarta.persistence.CascadeType;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Entity
-@Table(name = "theaters")
-@Getter
-@Setter
-@NoArgsConstructor
+@Table(name = "shows")
+@Data
 @Builder
 @AllArgsConstructor
-public class Theater {
+@NoArgsConstructor
+public class Show {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer theaterId;
+    private Integer showId;
 
-    private String name;
+    private LocalDate showDate; //"YYYY-MM-DD"
 
-    private String address;
+    private LocalTime showTime; //"HH:MM:SS"
 
-    private Integer noOfScreens;
+    @ManyToOne
+    @JoinColumn
+    private Movie movie;
 
-    @OneToMany(mappedBy = "theater",cascade = CascadeType.ALL)
-    private List<TheaterSeat> theaterSeatList = new ArrayList<>();
+    @ManyToOne
+    @JoinColumn
+    private Theater theater;
+
+
 }

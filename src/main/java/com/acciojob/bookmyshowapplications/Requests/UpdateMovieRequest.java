@@ -1,4 +1,4 @@
-package com.acciojob.bookmyshowapplications;
+package com.acciojob.bookmyshowapplications.Requests;
 
 import lombok.Getter;
 import lombok.Setter;
